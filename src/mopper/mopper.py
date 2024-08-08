@@ -288,7 +288,7 @@ def mop_process(ctx):
         var_log.debug(f"{ctx.obj['reference_date']}")
         t_ax_val = cftime.date2num(axes['t_ax'], units=ctx.obj['reference_date'],
             calendar=ctx.obj['attrs']['calendar'])
-        var_log.debug(f"t_ax[3] {t_ax_val[3]}")
+        #var_log.debug(f"t_ax[3] {t_ax_val[3]}")
         t_bounds = None
         if cmor_tName in bounds_list:
             t_bounds = get_bounds(dsin[var1], axes['t_ax'], cmor_tName,
@@ -318,6 +318,7 @@ def mop_process(ctx):
         axis_ids.append(z_ax_id)
     # if both i, j are defined setgrid if only one treat as lat/lon
     if axes['i_ax'] is not None and axes['j_ax'] is not None:
+        var_log.debug(f"Setting grid with {axes}")
         setgrid = True
         j_id = ij_axis(axes['j_ax'], 'j_index', tables[0])
         i_id = ij_axis(axes['i_ax'], 'i_index', tables[0])

@@ -40,10 +40,9 @@ import logging
 from collections import OrderedDict
 from datetime import datetime#, timedelta
 from dateutil.relativedelta import relativedelta
-from importlib.resources import files as import_files
 from json.decoder import JSONDecodeError
 
-from mopdb.mopdb_utils import query
+from mopdb.utils import query, write_yaml, read_yaml
 from mopper.cmip_utils import fix_years
 
 
@@ -103,37 +102,6 @@ def adjust_nsteps(v, frq):
     # new number of timesteps
     new_nsteps = tot_days * nstep_day[frq]
     return new_nsteps
-
-
-def read_yaml(fname):
-    """Read yaml file
-    """
-    with fname.open(mode='r') as yfile:
-        data = yaml.safe_load(yfile)
-    return data
-
-
-def write_yaml(data, fname, log_name='__name__'):
-    """Write data to a yaml file
-
-    Parameters
-    ----------
-    data : dict
-        The file content as a dictionary 
-    fname : str
-        Yaml filename 
-
-    Returns
-    -------
-    """
-    logger = logging.getLogger(log_name)
-    try:
-        with open(fname, 'w') as f:
-            yaml.dump(data, f)
-    except:
-        logger.error(f"Check that {data} exists and it is an object compatible with json")
-    return
-
 
 @click.pass_context
 def write_config(ctx, fname='exp_config.yaml'):
@@ -715,7 +683,7 @@ def define_template(ctx, flag, nrows):
 # for a list of packages
 
 module use /g/data/hh5/public/modules
-module load conda/analysis3-unstable
+module load conda/analysis3
 {ctx.obj['conda_env']}
 
 cd {ctx.obj['appdir']}

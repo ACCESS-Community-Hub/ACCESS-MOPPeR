@@ -34,6 +34,7 @@ from json.decoder import JSONDecodeError
 from importlib.resources import files as import_files
 
 from mopper.setup_utils import *
+from mopdb.utils import read_yaml
 
 
 def find_matches(table, var, realm, frequency, varlist):
@@ -102,7 +103,7 @@ def find_matches(table, var, realm, frequency, varlist):
             realmdir = 'atmos'
         else:
             realmdir = match['realm']
-        in_fname = match['filename'].split()
+        in_fname = match['fpattern'].split()
         match['file_structure'] = ''
         for f in in_fname:
             #match['file_structure'] += f"/{realmdir}/{f}* "
@@ -256,7 +257,7 @@ def var_map(ctx, activity_id=None):
         access_version = ctx.obj['access_version']
     if ctx.obj['force_dreq'] is True:
         if ctx.obj['dreq'] == 'default':
-            ctx.obj['dreq'] = import_files('data').joinpath( 
+            ctx.obj['dreq'] = import_files('mopdata').joinpath( 
                 'data/dreq/cmvme_all_piControl_3_3.csv' )
     with ctx.obj['master_map'].open(mode='r') as f:
         reader = csv.DictReader(f, delimiter=';')
@@ -300,7 +301,7 @@ def create_var_map(ctx, table, mappings, activity_id=None,
     matches = []
     fpath = ctx.obj['tables_path'] / f"{table}.json"
     if not fpath.exists():
-         fpath = import_files('data').joinpath( 
+         fpath = import_files('mopdata').joinpath( 
              f"cmor_tables/{table}.json")
     table_id = table.split('_')[1]
     mop_log.debug(f"Mappings: {mappings}")
@@ -406,7 +407,7 @@ def manage_env(ctx):
          '_control_vocabulary_file']:
         fpath = ctx.obj['tables_path'] / ctx.obj[f]
         if not fpath.exists():
-             fpath = import_files('data').joinpath(
+             fpath = import_files('mopdata').joinpath(
                  f"cmor_tables/{ctx.obj[f]}")
         if f == '_control_vocabulary_file':
             fname = "CMIP6_CV.json"
@@ -416,6 +417,6 @@ def manage_env(ctx):
         else:
             fname = ctx.obj[f]
         shutil.copyfile(fpath, ctx.obj['tpath'] / fname)
-    update_code = import_files('mopper').joinpath("update_db.py")
+    update_code = import_files('mopdata').joinpath("update_db.py.txt")
     shutil.copyfile(update_code, ctx.obj['outpath'] / "update_db.py")
     return
