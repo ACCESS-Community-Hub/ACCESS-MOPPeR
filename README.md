@@ -1,4 +1,4 @@
-# [ACCESS Model Output Post-Processor (MOPPeR)](https://access-mopper.readthedocs.io/en/latest)
+# [ACCESS Model Output Post-Processor (MOPPeR, Legacy Version v1)](https://access-mopper.readthedocs.io/en/latest)
 [![Read the docs](https://readthedocs.org/projects/access-mopper/badge/?version=latest)](https://access-mopper.readthedocs.io/en/latest/)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.14322348.svg)](https://doi.org/10.5281/zenodo.14322348)
 
